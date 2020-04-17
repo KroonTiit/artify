@@ -5,12 +5,14 @@ import shelve
 # Import the framework
 from flask import Flask, g
 from flask_restful import Resource, Api, reqparse
+from flask_cors import CORS, cross_origin
 
 # Create an instance of Flask
 app = Flask(__name__)
 
 # Create the API
 api = Api(app)
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 def get_db():
     db = getattr(g, '_database', None)
@@ -52,13 +54,14 @@ class PeopleList(Resource):
 
     def post(self):
         parser = reqparse.RequestParser()
-
-        parser.add_argument('name', required=True)
-        parser.add_argument('terms', required=True)
+       
+        parser.add_argument('name', required=True, help='name can not be parsed')
+        parser.add_argument('skills', action='append', required=True, help='skills can not be parsed')
+        parser.add_argument('agreed', required=True, help='agreed can not be parsed')
 
         # Parse the arguments into an object
         args = parser.parse_args()
-
+        
         shelf = get_db()
         shelf[args['name']] = args
 
@@ -70,21 +73,32 @@ class Person(Resource):
         shelf = get_db()
 
         # If the key does not exist in the data store, return a 404 error.
-        if not (identifier in shelf):
+        if not (name in shelf):
             return {'message': 'Person not found', 'data': {}}, 404
 
-        return {'message': 'Person found', 'data': shelf[identifier]}, 200
+        return {'message': 'Person found', 'data': shelf[name]}, 200
 
     def delete(self, name):
         shelf = get_db()
 
         # If the key does not exist in the data store, return a 404 error.
-        if not (identifier in shelf):
+        if not (name in shelf):
             return {'message': 'Person not found', 'data': {}}, 404
 
-        del shelf[identifier]
+        del shelf[name]
         return '', 204
 
+@app.after_request
+def after_request(response):
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Headers', '*')
+    response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+    response.headers.add('Access-Control-Allow-Credentials', 'false')
+    return response
+
+@app.before_request
+def before_request_func():
+    print("before_request is running!")
 
 api.add_resource(PeopleList, '/people')
 api.add_resource(Person, '/person/<string:name>')

@@ -70,7 +70,7 @@ If a device with the given identifier already exists, the existing device will b
 
 ## Lookup device details
 
-`GET /device/<identifier>`
+`GET /people/<identifier>`
 
 **Response**
 

@@ -20,6 +20,7 @@
                   <v-card-text>
                       <v-text-field
                         label="Name"
+                        v-model="name" 
                         :rules="nameRules"
                         name="Name"
                         type="text"
@@ -59,8 +60,9 @@
 </template>
 
 <script>
-//import Form from './components/form.vue'
 import 'vuetify/dist/vuetify.min.css'
+
+const baceUrl = "http://localhost:5000";
 
 export default {
   data () {
@@ -73,7 +75,7 @@ export default {
         v => (v && v.length >= 2) || 'Name must be more than 2 characters',
       ],
       select: null,
-      selectRules: [v => !!v || 'Skills are required'],
+      selectRules: [v => (v && v.length >= 1) || 'How come? You must have some skills!'],
       checkbox: false,
       checkboxRules: [v => !!v || 'You must be ready to continue!'],
       lazy: false,
@@ -161,9 +163,32 @@ export default {
     }
   },
   methods: {
-    validate () {
-      this.$refs.form.validate()
+    async saveForm() {
+       let data = JSON.stringify({
+          name: this.name,
+          skills: this.select,
+          agreed: this.checkbox
+        });
+        await fetch(baceUrl+'/people', {
+          method: 'POST',
+          body: JSON.stringify(data),
+          headers: new Headers({
+            'Accept': '*',
+            'Content-Type': 'application/json'
+          }),
+          credentials:  'include',
+          mode: 'cors'
+        })
+        .then( () => {
+          console.log("ok")
+        })
+        .catch( () => {
+          console.log("fail")
+        });
     },
+     validate () {
+      this.$refs.form.validate() && this.saveForm()
+    }
   },
   props: {
     source: String,
