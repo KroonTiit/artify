@@ -164,23 +164,23 @@ export default {
   },
   methods: {
     async saveForm() {
-       let data = JSON.stringify({
+       let data = {
           name: this.name,
-          skills: this.select,
-          agreed: this.checkbox
-        });
+          agreed: this.checkbox,
+          skills: this.select
+        };
         await fetch(baceUrl+'/people', {
           method: 'POST',
-          body: JSON.stringify(data),
+          body:  JSON.stringify(data),
           headers: new Headers({
-            'Accept': '*',
-            'Content-Type': 'application/json'
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
           }),
-          credentials:  'include',
-          mode: 'cors'
+          credentials:  'same-origin',
+          mode: 'cors',
         })
-        .then( () => {
-          console.log("ok")
+        .then( (res) => {
+          console.log(res)
         })
         .catch( () => {
           console.log("fail")

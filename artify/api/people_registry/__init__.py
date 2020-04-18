@@ -3,7 +3,7 @@ import os
 import shelve
 
 # Import the framework
-from flask import Flask, g
+from flask import Flask, g, request
 from flask_restful import Resource, Api, reqparse
 from flask_cors import CORS, cross_origin
 
@@ -27,6 +27,7 @@ def teardown_db(exception):
         db.close()
 
 @app.route("/")
+@cross_origin()
 def index():
     """Present some documentation"""
 
@@ -54,18 +55,21 @@ class PeopleList(Resource):
 
     def post(self):
         parser = reqparse.RequestParser()
-       
-        parser.add_argument('name', required=True, help='name can not be parsed')
-        parser.add_argument('skills', action='append', required=True, help='skills can not be parsed')
-        parser.add_argument('agreed', required=True, help='agreed can not be parsed')
+        print(request.get_json)
+
+        
+        parser.add_argument('name', action="store", default=None, type=str, location='json')
+        parser.add_argument('agreed', action="store", default=None, type=bool, location='json')
+        parser.add_argument('skills', action="append", default=None, type=str, location='json')
+
 
         # Parse the arguments into an object
         args = parser.parse_args()
-        
+        # print(args)
         shelf = get_db()
         shelf[args['name']] = args
 
-        return {'message': 'Person registered', 'data': args}, 201
+        return {}, 201
 
 
 class Person(Resource):
@@ -90,15 +94,12 @@ class Person(Resource):
 
 @app.after_request
 def after_request(response):
-    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Origin', 'http://localhost:8080')
     response.headers.add('Access-Control-Allow-Headers', '*')
     response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
-    response.headers.add('Access-Control-Allow-Credentials', 'false')
+    response.headers.add('Access-Control-Allow-Credentials', 'true')
     return response
 
-@app.before_request
-def before_request_func():
-    print("before_request is running!")
 
 api.add_resource(PeopleList, '/people')
 api.add_resource(Person, '/person/<string:name>')
