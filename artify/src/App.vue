@@ -196,7 +196,7 @@ export default {
     }
   },
   async mounted () {
-    const items = await fetch(baceUrl + '/skill/', {
+    const items = await fetch(baceUrl + '/skills/', {
         method: 'GET',
         credentials:  'same-origin',
         mode: 'cors',

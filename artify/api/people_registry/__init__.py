@@ -138,7 +138,7 @@ def after_request(response):
 
 api.add_resource(PeopleList, '/people/')
 api.add_resource(Person, '/person/<string:id>')
-api.add_resource(SkillsList, '/skill/')
+api.add_resource(SkillsList, '/skills/')
 api.add_resource(RemoveSkills, '/skills/<string:skill>')
 
 

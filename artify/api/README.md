@@ -1,4 +1,19 @@
-# Device Registry Service
+# Person Registry Service
+
+## Project setup
+Setingupt the project needs [docker](https://www.docker.com/products/docker-desktop) to be installed.
+
+## build the docker image
+```
+docker-compose build
+```
+
+### Run the docker image
+Make the API accessible on localhost:5000
+```
+docker-compose up
+```
+In case of failure follow the messages in CLI and google the error message.
 
 ## Usage
 
@@ -6,18 +21,18 @@ All responses will have the form
 
 ```json
 {
-    "data": "Mixed type holding the content of the response",
-    "message": "Description of what happened"
+    "message": "Description of what happened",
+    "data": "Mixed type holding the content of the response"
 }
 ```
 
 Subsequent response definitions will only detail the expected value of the `data field`
 
-### List all devices
+### List all people
 
 **Definition**
 
-`GET /devices`
+`GET /people/`
 
 **Response**
 
@@ -26,34 +41,41 @@ Subsequent response definitions will only detail the expected value of the `data
 ```json
 [
     {
-        "identifier": "floor-lamp",
-        "name": "Floor Lamp",
-        "device_type": "switch",
-        "controller_gateway": "192.1.68.0.2"
+        "id": "ejq1a1kopd42j238ee89fhpcr90",
+        "name": "Tiit",
+        "agreed": true,
+        "skills": [
+            "Manufacturing",
+            "Coding"
+        ]
     },
     {
-        "identifier": "samsung-tv",
-        "name": "Living Room TV",
-        "device_type": "tv",
-        "controller_gateway": "192.168.0.9"
+        "id": "oic29jkb96fb8q3eh506ia3rgen",
+        "name": "Lennu",
+        "agreed": true,
+        "skills": [
+            "Manufacturing",
+            "Construction materials",
+            "Electronics and Optics",
+        ]
     }
 ]
 ```
 
-### Registering a new device
+### Registering a new person
 
 **Definition**
 
-`POST /devices`
+`POST /people/`
 
 **Arguments**
 
-- `"identifier":string` a globally unique identifier for this device
-- `"name":string` a friendly name for this device
-- `"device_type":string` the type of the device as understood by the client
-- `"controller_gateway":string` the IP address of the device's controller
+- `"id":string` a globally unique identifier for this session
+- `"name":string` a name for this person
+- `"agreed":bool` has the person agreed to the terms
+- `"skills":list<string>` list of skills that the person has 
 
-If a device with the given identifier already exists, the existing device will be overwritten.
+If a person with the given identifier already exists, the existing person will be overwritten.
 
 **Response**
 
@@ -61,38 +83,101 @@ If a device with the given identifier already exists, the existing device will b
 
 ```json
 {
-    "identifier": "floor-lamp",
-    "name": "Floor Lamp",
-    "device_type": "switch",
-    "controller_gateway": "192.1.68.0.2"
+    "id": "oic29jkb96fb8q3eh506ia3rgen",
+    "name": "Lennu",
+    "agreed": true,
+    "skills": [
+        "Manufacturing",
+        "Construction materials",
+        "Electronics and Optics",
+    ]
 }
 ```
 
-## Lookup device details
+## Lookup people details
 
-`GET /people/<identifier>`
+`GET /people/<name>`
 
 **Response**
 
-- `404 Not Found` if the device does not exist
+- `404 Not Found` if the person does not exist
 - `200 OK` on success
 
 ```json
 {
-    "identifier": "floor-lamp",
-    "name": "Floor Lamp",
-    "device_type": "switch",
-    "controller_gateway": "192.1.68.0.2"
+    "id": "oic29jkb96fb8q3eh506ia3rgen",
+    "name": "Lennu",
+    "agreed": true,
+    "skills": [
+        "Manufacturing",
+        "Construction materials",
+        "Electronics and Optics",
+    ]
 }
 ```
 
-## Delete a device
+## Delete a person
 
 **Definition**
 
-`DELETE /person/<identifier>`
+`DELETE /person/<id>`
 
 **Response**
 
-- `404 Not Found` if the device does not exist
+- `404 Not Found` if the person does not exist
 - `204 No Content` on success
+
+### List all skills
+
+**Definition**
+
+`GET /skills/`
+
+**Response**
+
+- `200 OK` on success
+
+```json
+[
+    {
+        "skill": [
+            "Coding"
+        ]
+    },
+    {
+        "skill": [
+            "Manufacturing",
+        ]
+    },
+]
+```
+### Delete a skill
+
+**Definition**
+
+`DELETE /skills/`
+
+**Response**
+
+- `404 Not Found` if the skill does not exist
+- `204 No Content` on success
+
+### Add a skill
+
+**Definition**
+
+`POST /skills/`
+
+**Response**
+
+- `200 OK` on success
+
+```json
+[
+    {
+        "skill": [
+            "Coding"
+        ]
+    }
+]
+```
