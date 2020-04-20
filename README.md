@@ -15,11 +15,11 @@ npm run serve
 npm run build
 ```
 
-###API Notes
+### API Notes
 # Person Registry Service
 
 ## Project setup
-Setingupt the project needs [docker](https://www.docker.com/products/docker-desktop) to be installed.
+Seting up the project needs [docker](https://www.docker.com/products/docker-desktop) to be installed.
 
 ## build the docker image
 navigate to /artify/api and run
@@ -28,7 +28,7 @@ docker-compose build
 ```
 
 ### Run the docker image
-Make the API accessible on localhost:5000
+Makes the API accessible on localhost:5000
 ```
 docker-compose up
 ```
