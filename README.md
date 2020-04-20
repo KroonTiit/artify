@@ -189,7 +189,7 @@ If a person with the given identifier already exists, the existing person will b
 
 **Arguments**
 
-- `"skills":list<string>` list of skills that the person has
+- `"skills":string` list of skills that the person has
 
 **Response**
 
