@@ -187,6 +187,10 @@ If a person with the given identifier already exists, the existing person will b
 
 `POST /skills/`
 
+**Arguments**
+
+- `"skills":list<string>` list of skills that the person has
+
 **Response**
 
 - `200 OK` on success
