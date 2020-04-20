@@ -136,9 +136,9 @@ def after_request(response):
     response.headers.add('Access-Control-Allow-Credentials', 'true')
     return response
 
-api.add_resource(PeopleList, '/people/')
+api.add_resource(PeopleList, '/people')
 api.add_resource(Person, '/person/<string:id>')
-api.add_resource(SkillsList, '/skills/')
+api.add_resource(SkillsList, '/skills')
 api.add_resource(RemoveSkills, '/skills/<string:skill>')
 
 

@@ -174,7 +174,7 @@ export default {
         agreed: this.checkbox,
         skills: this.select
       };
-      await fetch(baceUrl + '/people/', {
+      await fetch(baceUrl + '/people', {
         method: 'POST',
         body:  JSON.stringify(data),
         headers: new Headers({
@@ -196,7 +196,7 @@ export default {
     }
   },
   async mounted () {
-    const items = await fetch(baceUrl + '/skills/', {
+    const items = await fetch(baceUrl + '/skills', {
         method: 'GET',
         credentials:  'same-origin',
         mode: 'cors',
