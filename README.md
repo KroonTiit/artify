@@ -1,38 +1,16 @@
 # artify
 
 ## Project setup
+Seting up the project needs [docker](https://www.docker.com/products/docker-desktop) to be installed.
+run this command and the app will open on localhost:3000
 ```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
+./scripts/start.sh
 ```
 
-### Compiles and minifies for production
-```
-npm run build
-```
+
 
 ### API Notes
 # Person Registry Service
-
-## Project setup
-Seting up the project needs [docker](https://www.docker.com/products/docker-desktop) to be installed.
-
-## build the docker image
-navigate to /artify/api and run
-```
-docker-compose build
-```
-
-### Run the docker image
-Makes the API accessible on localhost:5000
-```
-docker-compose up
-```
-In case of failure follow the messages in CLI and google the error message.
 
 ## Usage
 
