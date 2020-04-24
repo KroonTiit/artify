@@ -2,7 +2,7 @@
 
 ## Project setup
 Seting up the project needs [docker](https://www.docker.com/products/docker-desktop) to be installed.
-run this command and the app will open on localhost:3000
+Run this command and the app should open on localhost:3000
 ```
 ./scripts/start.sh
 ```
