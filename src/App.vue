@@ -62,7 +62,7 @@
 <script>
 import 'vuetify/dist/vuetify.min.css'
 
-const baceUrl = "http://localhost:5000";
+const baceUrl = "http://localhost:4000";
 
 export default {
   data () {
